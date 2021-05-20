@@ -678,4 +678,19 @@ namespace ofxAzureKinect
 	{
 		return this->bodyTracker.getBodyIDs();
 	}
+
+	ofPoint Stream::convertPos(const ofPoint &p) {
+		k4a_float2_t input;
+		input.xy.x = static_cast<float>(p.x);
+		input.xy.y = static_cast<float>(p.y);
+		k4a_float3_t dPos;
+		if (this->calibration.convert_2d_to_3d(input, 1000.f, K4A_CALIBRATION_TYPE_DEPTH, K4A_CALIBRATION_TYPE_DEPTH, &dPos)) {
+			k4a_float2_t output;
+			k4a_float3_t dInput = dPos;
+			if (this->calibration.convert_3d_to_2d(dInput, K4A_CALIBRATION_TYPE_DEPTH, K4A_CALIBRATION_TYPE_COLOR, &output)) {
+				return ofPoint(output.xy.x, output.xy.y);
+			}
+		}
+		return ofPoint(0, 0);
+	}
 }

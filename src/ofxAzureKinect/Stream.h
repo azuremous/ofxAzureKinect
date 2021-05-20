@@ -76,6 +76,7 @@ namespace ofxAzureKinect
 		size_t getNumBodies() const;
 		const std::vector<k4abt_skeleton_t>& getBodySkeletons() const;
 		const std::vector<uint32_t>& getBodyIDs() const;
+		ofPoint convertPos(const ofPoint &p);
 
 	protected:
 		virtual bool setupDepthToWorldTable();
